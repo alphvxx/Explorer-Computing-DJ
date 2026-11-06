@@ -1,14 +1,67 @@
+# 10주차 과제: 자기소개 / 수업시간표 / 가보고 싶은 장소
+# 사이드바 메뉴로 페이지를 전환합니다. (내용은 본인에 맞게 수정)
 import streamlit as st
 import pandas as pd
-import numpy as np
 
-st.title("간단한 Streamlit 예제")
-st.write("데이터와 그래프를 보여주는 예제입니다.")
+st.sidebar.header("📂 메뉴")
+page = st.sidebar.radio("페이지 선택", ["자기소개", "수업시간표", "가보고 싶은 장소"])
 
-# 샘플 데이터
-data = pd.DataFrame(
-    np.random.randn(20, 3),
-    columns=['A', 'B', 'C']
-)
+if page == "자기소개":
+    st.title("👋 안녕하세요, 정다은입니다")
+    st.caption("컴퓨팅 탐색 수업에서 만든 자기소개 페이지입니다")
 
-st.line_chart(data)
+    st.header("소개")
+    st.write("서울대학교에 재학 중인 **정다은**입니다. "
+             "파이썬으로 이것저것 만들어보는 재미에 빠져서 *컴퓨팅 탐색* 수업을 듣고 있습니다.")
+
+    st.header("취미")
+    st.markdown("""
+    - 포켓몬 게임 하기
+    - 노래 듣기
+    - 쇼핑하기
+    """)
+
+    st.header("좋아하는 것들")
+    st.markdown("**음식**: 떡볶이, 초밥  \n**계절**: 겨을  \n**노래**: 케이팝")
+
+    st.header("이번 학기 목표")
+    st.write("1. 학부연구생 생활 열심히 하기")
+    st.write("2. 전공 공부와 과제 밀리지 않기")
+
+    st.header("연락처")
+    st.markdown("[📧 이메일](mailto:alphvxx@snu.ac.kr)  |  [🔗 GitHub](https://github.com/alphvxx)")
+
+elif page == "수업시간표":
+    st.title("📅 2026-2학기 수업시간표")
+    st.write("이번 학기 시간표입니다.")
+
+    timetable = pd.DataFrame(
+        {
+            "월": ["", "", "재료수치해석", "고분자재료물리", "재료현대물리"],
+            "화": ["", "", "", "생체역학 및 실습", ""],
+            "수": ["", "", "재료수치해석", "고분자재료물리", "재료현대물리"],
+            "목": ["", "", "", "", ""],
+            "금": ["", "컴퓨팅 탐색", "", "", ""],
+        },
+        index=["1교시 (09:00)", "2교시 (10:30)", "3교시 (12:00)", "4교시 (13:30)", "5교시 (15:00)"],
+    )
+    st.table(timetable)
+
+    st.subheader("이번 학기 요약")
+    st.metric(label="수강 과목 수", value="5과목", delta="지난 학기 대비 +1")
+    st.caption("※ 시간표는 수강 변경 기간에 바뀔 수 있음")
+
+else:
+    st.title("🗺️ 가보고 싶은 장소")
+    st.write("언젠가 꼭 가보고 싶은 국내 여행지들을 지도에 표시했습니다.")
+
+    places = pd.DataFrame({
+        "장소": ["설악산", "강릉 안목해변", "전주 한옥마을", "경주 불국사", "부산 해운대", "제주 성산일출봉"],
+        "lat": [38.1196, 37.7719, 35.8150, 35.7900, 35.1587, 33.4587],
+        "lon": [128.4654, 128.9470, 127.1530, 129.3320, 129.1604, 126.9425],
+    })
+
+    st.map(places)
+
+    st.subheader("가고 싶은 순서")
+    st.table(places[["장소"]])
